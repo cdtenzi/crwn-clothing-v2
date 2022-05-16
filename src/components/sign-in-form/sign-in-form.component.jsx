@@ -6,10 +6,12 @@ import {
   signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
+
+import { UserContext } from "../../contexts/user.context";
 
 const defaultFormFields = {
   email: "",
@@ -29,20 +31,20 @@ const SignInForm = () => {
   };
 
   const logGoogleUser = async () => {
-    const response = await signInWithGooglePopup();
-    const userDocRef = await createUserDocumentFromAuth(response.user);
+    await signInWithGooglePopup();
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     // we check if the user exists, and if so, we log it in.
     try {
-      const response = signInAuthUserWithEmailAndPassword(email, password);
-      console.log(response);
+      await signInAuthUserWithEmailAndPassword(email, password);
+      resetFormFields();
     } catch (err) {
-      alert("The was an error trying to log you in:", err.code);
+      alert(
+        "Sorry. The user and password combination that you have entered is not correct"
+      );
     }
-    resetFormFields();
     return;
   };
 
@@ -70,7 +72,7 @@ const SignInForm = () => {
         <div className="buttons-container">
           <Button type="submit">Sign In</Button>
           <Button buttonType="google" onClick={logGoogleUser}>
-            Sign in with Google
+            Google Sign in
           </Button>
         </div>
       </form>
