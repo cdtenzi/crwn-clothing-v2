@@ -19,7 +19,6 @@ const getButton = (buttonType = BUTTON_TYPE_CLASSES.base) =>
 
 const Button = ({ children, buttonType, ...otherProps }) => {
   const CustomButton = getButton(buttonType);
-  console.log(buttonType, CustomButton);
   return <CustomButton {...otherProps}>{children}</CustomButton>;
 };
 

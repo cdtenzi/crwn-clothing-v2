@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -56,7 +55,6 @@ export const addCollectionAndDocuments = async (
     batch.set(docRef, object);
   });
   await batch.commit();
-  console.log("done");
 };
 
 // obtenemos todo el arbol de productos desde firestore:
@@ -65,13 +63,7 @@ export const getCategoriesAndDocuments = async () => {
   const qry = query(collectionRef);
 
   const querySnapshot = await getDocs(qry);
-  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const { title, items } = docSnapshot.data();
-    acc[title.toLowerCase()] = items;
-    return acc;
-  }, {});
-
-  return categoryMap;
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 };
 
 export const createUserDocumentFromAuth = async (
