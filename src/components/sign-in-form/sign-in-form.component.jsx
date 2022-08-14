@@ -29,7 +29,7 @@ const SignInForm = () => {
   };
 
   const logGoogleUser = async () => {
-    dispatch(googleSignInStart);
+    dispatch(googleSignInStart());
   };
 
   const handleSubmit = async (event) => {
