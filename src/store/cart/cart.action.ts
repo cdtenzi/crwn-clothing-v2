@@ -11,43 +11,50 @@ const addCartItem = (
   productToAdd: CategoryItem
 ): CartItem[] => {
   //check if cartItems conteins the productToAdd
-  const existingCarItem = cartItems.find(
-    (cartItem) => cartItem.id === productToAdd.id
-  );
-  //increment quantity
-  if (existingCarItem) {
-    return cartItems.map((cartItem) =>
-      cartItem.id === productToAdd.id
-        ? { ...cartItem, quantity: cartItem.quantity + 1 }
-        : cartItem
+  if (typeof cartItems !== "undefined") {
+    const existingCartItem = cartItems.find(
+      (cartItem) => cartItem.id === productToAdd.id
     );
-  }
-  //retunr the modified array with the new item
-  return [...cartItems, { ...productToAdd, quantity: 1 }];
+    //increment quantity
+    if (existingCartItem) {
+      return cartItems.map((cartItem) =>
+        cartItem.id === productToAdd.id
+          ? { ...cartItem, quantity: cartItem.quantity + 1 }
+          : cartItem
+      );
+    }
+    //return the modified array with the new item
+    return [...cartItems, { ...productToAdd, quantity: 1 }];
+  } else return cartItems;
 };
 
 const removeCartItem = (
   cartItems: CartItem[],
   productToRemove: CartItem
 ): CartItem[] => {
-  const existingCarItem = cartItems.find(
-    (cartItem) => cartItem.id === productToRemove.id
-  );
-  if (existingCarItem && existingCarItem.quantity === 1) {
-    return cartItems.filter((cartItem) => cartItem.id !== productToRemove.id);
-  }
-  return cartItems.map((cartItem) =>
-    cartItem.id === productToRemove.id
-      ? { ...cartItem, quantity: cartItem.quantity - 1 }
-      : cartItem
-  );
+  if (typeof cartItems !== "undefined") {
+    const existingCartItem = cartItems.find(
+      (cartItem) => cartItem.id === productToRemove.id
+    );
+    if (existingCartItem && existingCartItem.quantity === 1) {
+      return cartItems.filter((cartItem) => cartItem.id !== productToRemove.id);
+    }
+    return cartItems.map((cartItem) =>
+      cartItem.id === productToRemove.id
+        ? { ...cartItem, quantity: cartItem.quantity - 1 }
+        : cartItem
+    );
+  } else return cartItems;
 };
 
 const clearCartItem = (
   cartItems: CartItem[],
   cartItemToClear: CartItem
-): CartItem[] =>
-  cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
+): CartItem[] => {
+  if (typeof cartItems !== "undefined")
+    cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
+  return cartItems;
+};
 
 export type SetIsCartOpen = ActionWithPayload<
   CART_ACTION_TYPES.SET_IS_CART_OPEN,
