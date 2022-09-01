@@ -1,6 +1,6 @@
 import { SignInContainer, ButtonsContainer } from "./sign-in-form.styles";
 
-import { useState } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 
 import FormInput from "../form-input/form-input.component";
@@ -24,7 +24,7 @@ const SignInForm = () => {
     setFormFields(defaultFormFields);
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormFields({ ...formFields, [event.target.name]: event.target.value });
   };
 
@@ -32,7 +32,7 @@ const SignInForm = () => {
     dispatch(googleSignInStart());
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // we check if the user exists, and if so, we log it in.
     try {
